@@ -1,4 +1,6 @@
 # T8NTextureTool
+<img width="128" height="128" alt="T8NTextureTool" src="https://github.com/user-attachments/assets/69576cfe-d607-4f93-9ef8-f02bf75e6d85" />
+
 ## Download
 Go to the Releases tab and download the latest version:
 

@@ -46,7 +46,7 @@ public static class ThemeManager
 
         Themes.Clear();
 
-        // Load custom themes
+        // Load Themes
         foreach (var file in Directory.GetFiles(ThemeFolder, "*.json"))
         {
             try
@@ -58,7 +58,7 @@ public static class ThemeManager
             catch { }
         }
 
-        // Add built-in themes
+        // Default Themes
         Themes.Add(GetDarkTheme());
         Themes.Add(GetLightTheme());
         Themes.Add(GetT8NTheme());
@@ -332,7 +332,7 @@ namespace T8NTextureTool
 
             Panel content = new Panel()
             {
-                Size = new Size(460, 600), // your "designed size"
+                Size = new Size(460, 600),
                 BackColor = Color.Transparent
             };
 
@@ -344,7 +344,7 @@ namespace T8NTextureTool
                 content.Top = (root.Height - content.Height) / 2;
             };
 
-            // Layout
+            // Layout Stuff
             FlowLayoutPanel layout = new FlowLayoutPanel()
             {
                 Dock = DockStyle.Fill,
@@ -416,7 +416,7 @@ namespace T8NTextureTool
             };
             y += 45;
 
-            // ASTC
+            // Astc
             Label astcLabel = new Label()
             {
                 Text = "ASTC Block Size",
@@ -500,7 +500,7 @@ namespace T8NTextureTool
             optionsPanel.Controls.Add(alpha);
             optionsPanel.Controls.Add(stripAlpha);
 
-            // Apply saved preferences
+            // Save Preferences
             var prefs = PreferencesManager.Current;
 
             inputFile = prefs.LastInputFile ?? "";
@@ -528,7 +528,7 @@ namespace T8NTextureTool
                 outputPathBox.Text = "No output folder selected";
             }
 
-            // Apply theme
+            // Apply Theme
             if (!string.IsNullOrEmpty(prefs.SelectedTheme))
             {
                 var theme = ThemeManager.Themes.FirstOrDefault(t => t.Name == prefs.SelectedTheme);
@@ -538,7 +538,8 @@ namespace T8NTextureTool
 
             y += 60;
 
-            // File buttons
+            // File Buttons
+
             // OLD --> Button fileBtn = CreateButton("Select Image");
             //         fileBtn.Location = new Point(left, y);
 
@@ -546,14 +547,13 @@ namespace T8NTextureTool
             //         folderBtn.Location = new Point(left + 210, y);
 
 
-            // Run button
             Button runBtn = CreateButton("Run Command");
             runBtn.Location = new Point(left, y);
             runBtn.Width = width;
             runBtn.Height = 45;
             runBtn.BackColor = Color.FromArgb(40, 120, 255);
 
-            // Status label
+            // Status Label
             Label statusLabel = new Label()
             {
                 Text = "Ready",
@@ -563,7 +563,7 @@ namespace T8NTextureTool
                 ForeColor = Color.LightGray
             };
 
-            // ================= EVENTS =================
+            //   ¯\_(ツ)_/¯ EVENTS ¯\_(ツ)_/¯
 
             preferencesMenu.Click += (s, e) =>
             {
@@ -642,7 +642,7 @@ namespace T8NTextureTool
                     inputFile = ofd.FileName;
                     selectImageItem.Text = "Select Image ✔";
 
-                    inputPathBox.Text = inputFile; // update textbox
+                    inputPathBox.Text = inputFile;
                 }
             };            
 
@@ -655,7 +655,7 @@ namespace T8NTextureTool
                     outputFolder = fbd.SelectedPath;
                     selectFolderItem.Text = "Output Folder ✔";
 
-                    outputPathBox.Text = outputFolder; // ADD THIS
+                    outputPathBox.Text = outputFolder;
                 }
             };
 
@@ -697,7 +697,7 @@ namespace T8NTextureTool
 
                                 clone.Crop(geometry);
 
-                                // Equivalent to +repage
+                                // = to +repage
                                 clone.Page = new MagickGeometry();
 
                                 string astc = astcBox.Text.Contains("4") ? "4" : "6";
@@ -709,7 +709,7 @@ namespace T8NTextureTool
 
                                 string pattern = nameBox.Text;
 
-                                // Replace tokens
+                                // Replace Tokens
                                 string fileNameFormatted = pattern
                                     .Replace("{index}", count.ToString("D4"))
                                     .Replace("{x}", x.ToString())
@@ -734,7 +734,8 @@ namespace T8NTextureTool
                 }
             };
 
-            // Add controls
+            // Controls
+            
             layout.Controls.Add(pxLabel);
             layout.Controls.Add(pxBox);
             layout.Controls.Add(astcLabel);

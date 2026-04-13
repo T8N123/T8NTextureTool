@@ -30,8 +30,8 @@ The app uses an embedded version of ImageMagick via Magick.NET, so no external t
 
 ## How to Use
 
-1. Select an input image
-2. Select an output folder
+1. Select an input image (File > Select Image)
+2. Select an output folder (Export > Select Output Folder)
 3. Enter tile resolution (e.g. 128, 256, etc.)
 4. Set Astc block (e.g. 6x6, and 4x4)
 5. (Optional) configure Mips, Alpha, or Strip Alpha
@@ -41,4 +41,4 @@ Click Run
 
 The Help tab in the app does not do anything as of now.
 
-## DM @t8nvr on discord for help
+**DM @t8nvr on discord for help**

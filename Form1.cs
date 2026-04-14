@@ -311,11 +311,16 @@ namespace T8NTextureTool
             var selectImageItem = new ToolStripMenuItem("Select Image");
             var exportMenu = new ToolStripMenuItem("Export");
             var selectFolderItem = new ToolStripMenuItem("Select Output Folder");
+            var aboutItem = new ToolStripMenuItem("About");
+            var usageItem = new ToolStripMenuItem("How to Use");
+            var githubItem = new ToolStripMenuItem("GitHub / Repo");
 
-            fileMenu.DropDownItems.Add(selectImageItem);            
-            
+            helpMenu.DropDownItems.Add(usageItem);
+            helpMenu.DropDownItems.Add(aboutItem);
+            helpMenu.DropDownItems.Add(new ToolStripSeparator());
+            helpMenu.DropDownItems.Add(githubItem);            
+            fileMenu.DropDownItems.Add(selectImageItem);                        
             exportMenu.DropDownItems.Add(selectFolderItem);                        
-
             menu.Items.Add(fileMenu);
             menu.Items.Add(exportMenu);
             menu.Items.Add(preferencesMenu);
@@ -658,6 +663,47 @@ namespace T8NTextureTool
                     outputPathBox.Text = outputFolder;
                 }
             };
+
+            aboutItem.Click += (s, e) =>
+            {
+                MessageBox.Show(
+                    "T8N TextureTool\n\n" +
+                    "An application that allows a user friendly way to export sliced texture arrays and strip the alpha layers off them.\n\n" +
+                    "Made by T8N (t8nvr).\n\n" +
+                    "Current Version: 1.0.1",
+                    "About",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            };
+
+            usageItem.Click += (s, e) =>
+            {
+                MessageBox.Show(
+                    "HOW TO USE:\n\n" +
+                    "1. File → Select Image (Texture Array)\n" +
+                    "2. Export → Select Output Folder\n" +
+                    "3. Set resolution (texture size)\n" +
+                    "4. Choose Astc + Options\n" +
+                    "5. Click 'Run Command'\n\n" +
+                    "Tokens:\n" +
+                    "{index} = Texture Number\n" +
+                    "{x}, {y} = Texture Position (Don't Worry About This)\n" +
+                    "{px} = Resolution",
+                    "How to Use",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            };
+
+            githubItem.Click += (s, e) =>
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://github.com/T8N123/T8NTextureTool",
+                    UseShellExecute = true
+                });
+            };            
 
             // Run Command
             runBtn.Click += async (s, e) =>

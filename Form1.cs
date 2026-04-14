@@ -332,7 +332,7 @@ namespace T8NTextureTool
 
             Panel content = new Panel()
             {
-                Size = new Size(460, 600),
+                Size = new Size(460, 430),
                 BackColor = Color.Transparent
             };
 
@@ -389,7 +389,7 @@ namespace T8NTextureTool
             catch { }
             this.ShowIcon = true;
             this.Text = "T8N Texture Tool";
-            this.Size = new Size(500, 650);
+            this.Size = new Size(500, 520);
             this.BackColor = Color.FromArgb(20, 20, 20);
             this.ForeColor = Color.White;
 

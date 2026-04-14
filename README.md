@@ -40,4 +40,5 @@ The app uses an embedded version of ImageMagick via Magick.NET, so no external t
 
 Click Run
 
-**DM @t8nvr on discord for help**
+## Discord Server
+https://discord.gg/uKejkeu3rC

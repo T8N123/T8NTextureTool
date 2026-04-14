@@ -3,6 +3,7 @@
 
 ## Download
 Go to the Releases tab and download the latest version:
+**1.0.1**
 
 Extract and Run, "T8N TextureTool.exe"
 
@@ -38,7 +39,5 @@ The app uses an embedded version of ImageMagick via Magick.NET, so no external t
 6. (Optional) Set your filename pattern: **output_{index}** (You will only need to edit this to add something like, v2, a tag like T8N, etc.)
 
 Click Run
-
-The Help tab in the app does not do anything as of now.
 
 **DM @t8nvr on discord for help**

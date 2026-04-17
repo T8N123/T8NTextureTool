@@ -22,8 +22,9 @@ No system modifications are made by this app.
 ## Safety
 
 This tool only:
-reads the selected input image
-writes output files to your chosen folder
+- Reads the selected input image
+- Writes output files to your chosen folder
+- Optionally deletes extra textures in the chosen output folder
 
 ## How It Works
 

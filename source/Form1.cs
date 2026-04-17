@@ -148,6 +148,10 @@ namespace T8NTextureTool
 {
     public partial class Form1 : Form
     {
+
+        private string logFilePath;
+        private string duplicatesFolderPath;
+
         string inputFile = "";
         string outputFolder = "";
 
@@ -264,6 +268,20 @@ namespace T8NTextureTool
             editor.ShowDialog();
         }
 
+        private void BtnRemoveDuplicates_Click(object sender, EventArgs e)
+        {
+            string folderPath = outputFolder;
+
+            if (!Directory.Exists(folderPath))
+            {
+                MessageBox.Show("Output folder not found.");
+                return;
+            }
+
+            InitializeFolders();
+            RemoveDuplicateTextures(folderPath);            
+        }
+
         private Button CreateColorPicker(string label, int[] initial, Action<int[]> onColorChanged)
         {
             Button btn = new Button()
@@ -291,10 +309,113 @@ namespace T8NTextureTool
             return btn;
         }
 
+        private void RemoveDuplicateTextures(string folderPath)
+        {
+            var files = Directory.GetFiles(folderPath, "*.*", SearchOption.TopDirectoryOnly)
+                                .Where(f => f.EndsWith(".png") || f.EndsWith(".jpg") || f.EndsWith(".tga"))
+                                .ToList();
+
+            Dictionary<string, string> hashDict = new Dictionary<string, string>();
+            int deletedCount = 0;
+
+            foreach (var file in files)
+            {
+                string hash = GetImageFingerprint(file);
+
+                if (hashDict.ContainsKey(hash))
+                {
+                    string originalFile = hashDict[hash];
+
+                    try
+                    {
+                        File.Delete(file);
+                        deletedCount++;
+                        LogDeletion(file, originalFile);
+                    }
+                    catch (Exception ex)
+                    {
+                        File.AppendAllText(logFilePath, $"[ERROR] {file}\n{ex.Message}\n\n");
+                    }
+                }
+                else
+                {
+                    hashDict[hash] = file;
+                }
+            }
+
+            MessageBox.Show($"Removed {deletedCount} duplicate textures.");
+            File.AppendAllText(logFilePath, $"Finished: {DateTime.Now}\n");
+            File.AppendAllText(logFilePath, $"Total Deleted: {deletedCount}\n");
+        }
+
+        private string GetImageFingerprint(string filePath)
+        {
+            using (var bmp = new Bitmap(filePath))
+            {
+                int sampleSize = 8; // 8x8 grid
+                int stepX = bmp.Width / sampleSize;
+                int stepY = bmp.Height / sampleSize;
+
+                List<byte> data = new List<byte>();
+
+                for (int y = 0; y < sampleSize; y++)
+                {
+                    for (int x = 0; x < sampleSize; x++)
+                    {
+                        int px = x * stepX;
+                        int py = y * stepY;
+
+                        Color pixel = bmp.GetPixel(px, py);
+
+                        data.Add(pixel.R);
+                        data.Add(pixel.G);
+                        data.Add(pixel.B);
+                    }
+                }
+
+                // Hash the sampled pixel data
+                using (var sha256 = System.Security.Cryptography.SHA256.Create())
+                {
+                    byte[] hash = sha256.ComputeHash(data.ToArray());
+                    return BitConverter.ToString(hash).Replace("-", "");
+                }
+            }
+        }
+
+        private void LogDeletion(string deletedFile, string keptFile)
+        {
+            string logEntry =
+                $"[DELETED] {deletedFile}\n" +
+                $"[KEPT]    {keptFile}\n" +
+                $"Time: {DateTime.Now}\n\n";
+
+            File.AppendAllText(logFilePath, logEntry);
+        }
+
+        private void InitializeFolders()
+        {
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+
+            string logDir = Path.Combine(baseDir, "logs");
+            if (!Directory.Exists(logDir))
+                Directory.CreateDirectory(logDir);
+
+            string fileName = $"dedupe_log_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
+            logFilePath = Path.Combine(logDir, fileName);
+
+            File.WriteAllText(logFilePath, "=== Duplicate Texture Deletion Log ===\n");
+            File.AppendAllText(logFilePath, $"Started: {DateTime.Now}\n\n");
+        }
+
         public Form1()
         {
             InitializeComponent();
 
+            if (!string.IsNullOrEmpty(outputFolder) && Directory.Exists(outputFolder))
+            {
+                InitializeFolders();
+            }
+            
             ThemeManager.LoadThemes();
             PreferencesManager.Load();
 
@@ -386,7 +507,7 @@ namespace T8NTextureTool
             {
                 var stream = System.Reflection.Assembly
                     .GetExecutingAssembly()
-                    .GetManifestResourceStream("T8NTextureTool.app.ico");                 
+                    .GetManifestResourceStream("app.ico");                 
 
                 if (stream != null)
                     this.Icon = new Icon(stream);
@@ -474,7 +595,7 @@ namespace T8NTextureTool
             {
                 
                 Width = width,
-                Height = 40
+                Height = 2
             };
 
             CheckBox mips = CreateCheckBox("1Mips");
@@ -557,6 +678,13 @@ namespace T8NTextureTool
             runBtn.Width = width;
             runBtn.Height = 45;
             runBtn.BackColor = Color.FromArgb(40, 120, 255);
+
+            Button btnRemoveDuplicates = new Button();
+            btnRemoveDuplicates.Text = "Remove Duplicate Textures";
+            btnRemoveDuplicates.Width = 200;
+            btnRemoveDuplicates.Height = 40;
+            btnRemoveDuplicates.Top = 200;
+            btnRemoveDuplicates.Left = 20;        
 
             // Status Label
             Label statusLabel = new Label()
@@ -779,6 +907,8 @@ namespace T8NTextureTool
                     statusLabel.ForeColor = Color.Red;
                 }
             };
+            btnRemoveDuplicates.Click += BtnRemoveDuplicates_Click;
+
 
             // Controls
             
@@ -791,12 +921,13 @@ namespace T8NTextureTool
             // OLD --> layout.Controls.Add(folderBtn);
             layout.Controls.Add(runBtn);
             layout.Controls.Add(statusLabel);
+            layout.Controls.Add(nameLabel);
+            layout.Controls.Add(nameBox);            
             layout.Controls.Add(inputLabel);
             layout.Controls.Add(inputPathBox);
             layout.Controls.Add(outputLabel);
             layout.Controls.Add(outputPathBox);
-            layout.Controls.Add(nameLabel);
-            layout.Controls.Add(nameBox);
+            layout.Controls.Add(btnRemoveDuplicates);
 
             ApplyTheme(this);
         }

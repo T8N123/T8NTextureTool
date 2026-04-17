@@ -798,7 +798,7 @@ namespace T8NTextureTool
                     "T8N TextureTool\n\n" +
                     "An application that allows a user friendly way to export sliced texture arrays and strip the alpha layers off them.\n\n" +
                     "Made by T8N (t8nvr).\n\n" +
-                    "Current Version: 1.0.1",
+                    "Current Version: 1.1.0",
                     "About",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information

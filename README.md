@@ -37,6 +37,7 @@ The app uses an embedded version of ImageMagick via Magick.NET, so no external t
 4. Set Astc block (e.g. 6x6, and 4x4)
 5. (Optional) configure Mips, Alpha, or Strip Alpha
 6. (Optional) Set your filename pattern: **output_{index}** (You will only need to edit this to add something like, v2, a tag like T8N, etc.)
+7. (Optional) Delete duplicate textures incase you export another version of the same texture array, and want to delete the extra textures
 
 Click Run
 

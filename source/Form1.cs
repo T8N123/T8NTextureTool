@@ -352,7 +352,7 @@ namespace T8NTextureTool
         {
             using (var bmp = new Bitmap(filePath))
             {
-                int sampleSize = 8; // 8x8 grid
+                int sampleSize = 8;
                 int stepX = bmp.Width / sampleSize;
                 int stepY = bmp.Height / sampleSize;
 
@@ -373,7 +373,7 @@ namespace T8NTextureTool
                     }
                 }
 
-                // Hash the sampled pixel data
+                // Hash Sampled Pixels
                 using (var sha256 = System.Security.Cryptography.SHA256.Create())
                 {
                     byte[] hash = sha256.ComputeHash(data.ToArray());

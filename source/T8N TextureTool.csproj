@@ -11,9 +11,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="app.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.12.0" />
   </ItemGroup>
 

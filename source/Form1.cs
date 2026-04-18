@@ -499,13 +499,13 @@ namespace T8NTextureTool
             // Window
             try
             {
-                var stream = System.Reflection.Assembly
-                    .GetExecutingAssembly()
-                    .GetManifestResourceStream("app.ico");                 
-
-                if (stream != null)
-                    this.Icon = new Icon(stream);
+                this.Icon = new Icon(
+                    System.Reflection.Assembly
+                        .GetExecutingAssembly()
+                        .GetManifestResourceStream("T8N_TextureTool.app.ico")
+                );
             }
+
             catch { }
             this.ShowIcon = true;
             this.Text = "T8N Texture Tool";
@@ -792,7 +792,7 @@ namespace T8NTextureTool
                     "T8N TextureTool\n\n" +
                     "An application that allows a user friendly way to export sliced texture arrays and strip the alpha layers off them.\n\n" +
                     "Made by T8N (t8nvr).\n\n" +
-                    "Current Version: 1.1.0",
+                    "Current Version: 1.1.1",
                     "About",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information

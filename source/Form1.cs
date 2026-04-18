@@ -458,17 +458,11 @@ namespace T8NTextureTool
 
             Panel content = new Panel()
             {
-                Size = new Size(460, 430),
+                Dock = DockStyle.Fill,
                 BackColor = Color.Transparent
             };
 
             root.Controls.Add(content);
-
-            root.Resize += (s, e) =>
-            {
-                content.Left = (root.Width - content.Width) / 2;
-                content.Top = (root.Height - content.Height) / 2;
-            };
 
             // Layout Stuff
             FlowLayoutPanel layout = new FlowLayoutPanel()
@@ -477,7 +471,7 @@ namespace T8NTextureTool
                 FlowDirection = FlowDirection.TopDown,
                 WrapContents = false,
                 AutoScroll = false,
-                Padding = new Padding(20),
+                Padding = new Padding(20, 20, 20, 20), 
             };
 
             content.Controls.Add(layout);
@@ -515,7 +509,7 @@ namespace T8NTextureTool
             catch { }
             this.ShowIcon = true;
             this.Text = "T8N Texture Tool";
-            this.Size = new Size(500, 520);
+            this.Size = new Size(500, 555);
             this.BackColor = Color.FromArgb(20, 20, 20);
             this.ForeColor = Color.White;
 
@@ -527,8 +521,9 @@ namespace T8NTextureTool
             Label pxLabel = new Label()
             {
                 Text = "Resolution",
-                
-                ForeColor = Color.LightGray
+                ForeColor = Color.LightGray,
+                AutoSize = true,
+                Padding = new Padding(0, 20, 0, 5)
             };
             y += 25;
 
@@ -593,9 +588,8 @@ namespace T8NTextureTool
             // Checkboxes
             FlowLayoutPanel optionsPanel = new FlowLayoutPanel()
             {
-                
                 Width = width,
-                Height = 2
+                AutoSize = true
             };
 
             CheckBox mips = CreateCheckBox("1Mips");
